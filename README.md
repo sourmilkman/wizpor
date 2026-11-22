@@ -10,7 +10,7 @@ Free, offline push-to-talk dictation for Windows, a personal Wispr Flow alternat
 1. Download this repo: **Code → Download ZIP** on GitHub, then unzip it somewhere permanent (e.g. `Documents\wizpor`).
 2. Open the `pc` folder and double-click **`setup.bat`**. It installs Python and Ollama if they're missing (if it installs Python, re-run it once afterwards), then downloads the models (~4 GB total).
 3. Double-click **`run.bat`**. A mic icon appears in the system tray and a small pill shows *Ready on CUDA*.
-4. Optional: right-click the tray icon and tick **Start with Windows**.
+4. Optional: right-click the tray icon and tick **Start with Windows**. It then launches silently each time you log in (Ollama starts itself too).
 
 ## Use
 

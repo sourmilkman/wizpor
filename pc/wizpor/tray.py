@@ -10,25 +10,47 @@ from typing import Callable
 from . import __version__
 
 
-def _startup_file() -> Path:
+RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
+RUN_NAME = "wizpor"
+
+
+def _legacy_startup_file() -> Path:
     appdata = os.environ.get("APPDATA", str(Path.home()))
     return Path(appdata) / "Microsoft/Windows/Start Menu/Programs/Startup/wizpor.bat"
 
 
+def startup_command(executable: str | None = None) -> str:
+    """Silent launch command: pythonw + launch.pyw (no console window)."""
+    exe = executable or sys.executable
+    if exe.lower().endswith("python.exe"):
+        exe = exe[: -len("python.exe")] + "pythonw.exe"
+    launcher = Path(__file__).resolve().parent.parent / "launch.pyw"
+    return f'"{exe}" "{launcher}"'
+
+
 def startup_enabled() -> bool:
-    return _startup_file().exists()
+    try:
+        import winreg
+
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, RUN_KEY) as k:
+            winreg.QueryValueEx(k, RUN_NAME)
+        return True
+    except (ImportError, OSError):
+        return False
 
 
 def set_startup(enabled: bool) -> None:
-    f = _startup_file()
-    if not enabled:
-        f.unlink(missing_ok=True)
-        return
-    exe = Path(sys.executable)
-    pythonw = exe.with_name("pythonw.exe") if exe.name.lower() == "python.exe" else exe
-    pkg_root = Path(__file__).resolve().parent.parent
-    f.parent.mkdir(parents=True, exist_ok=True)
-    f.write_text(f'@echo off\ncd /d "{pkg_root}"\nstart "" "{pythonw}" -m wizpor\n', encoding="utf-8")
+    import winreg
+
+    _legacy_startup_file().unlink(missing_ok=True)  # replace the old console-flashing .bat
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, RUN_KEY, 0, winreg.KEY_SET_VALUE) as k:
+        if enabled:
+            winreg.SetValueEx(k, RUN_NAME, 0, winreg.REG_SZ, startup_command())
+        else:
+            try:
+                winreg.DeleteValue(k, RUN_NAME)
+            except FileNotFoundError:
+                pass
 
 
 def open_path(p: Path) -> None:
