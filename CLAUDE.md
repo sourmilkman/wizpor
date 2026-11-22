@@ -16,4 +16,4 @@
   - Tidy-up: rule-based Cleanup.kt (fillers, "scratch that", word list). On-phone AI tidy = phase 2, only if fast.
   - Mic: MicService FGS (type microphone) started from MainActivity while visible; bubble shows error if Android silences mic.
   - Build: GitHub Actions (.github/workflows/android.yml) → GitHub Release APK; fixed committed keystore so updates install over the top.
-  - Status: v0.1.0 first build pushed; not yet tested on phone.
+  - Status: v0.1.0 build1 WORKING on user phone over Claude app (confirmed 2026-11-22). Background mic via FGS works.
