@@ -10,5 +10,10 @@
 
 ## Status
 - PC app v0.1.1 WORKING on user PC (confirmed 2026-11-22). Start-with-Windows = registry Run key → pythonw launch.pyw
-- Plan: PC first (Python + faster-whisper + Ollama), then Android keyboard (on-device Whisper), later "use PC when reachable" mode
 - PC has NVIDIA GPU
+- Android (android/): user uses phone at work while PC is OFF → fully on-device. User chose FLOATING BUBBLE only (accessibility service overlay), keyboard later if needed.
+  - STT: Parakeet TDT 0.6B v2 int8 via sherpa-onnx v2.0.3 (Kotlin API vendored; native .so fetched in CI). Model downloaded in-app (~480 MB).
+  - Tidy-up: rule-based Cleanup.kt (fillers, "scratch that", word list). On-phone AI tidy = phase 2, only if fast.
+  - Mic: MicService FGS (type microphone) started from MainActivity while visible; bubble shows error if Android silences mic.
+  - Build: GitHub Actions (.github/workflows/android.yml) → GitHub Release APK; fixed committed keystore so updates install over the top.
+  - Status: v0.1.0 first build pushed; not yet tested on phone.

@@ -50,3 +50,19 @@ pytest -q
 ```
 
 Design: `docs/superpowers/specs/2026-11-22-pc-dictation-design.md`
+
+---
+
+# wizpor for Android
+
+A floating mic bubble that types what you say into any app. Speech recognition runs entirely on the phone (NVIDIA Parakeet via sherpa-onnx), so it works with no PC and no internet after the one-time model download.
+
+## Install
+1. On your phone, open the repo's **Releases** page on GitHub and tap the newest `wizpor-…apk`. Allow your browser to install apps when asked.
+2. Open **wizpor** and follow the four steps on screen: microphone → download the speech model (~480 MB, Wi-Fi recommended) → turn on the bubble in Accessibility → allow background running.
+   - If the Accessibility switch is greyed out ("Restricted setting"): App info → ⋮ → **Allow restricted settings**, then try again.
+
+## Use
+- Tap a text box. The bubble appears. **Tap it**, talk, **tap again**, and the text appears.
+- **Long-press while recording** to cancel. **Long-press while idle** to open settings. **Drag** to move it.
+- Updates: install the newer APK over the top. Your model and settings are kept.
