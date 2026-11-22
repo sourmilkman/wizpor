@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wizpor</string>
+    <string name="a11y_description">Shows the wizpor voice bubble and types your dictated text into the text box you are using. Speech is processed entirely on this phone.</string>
+</resources>
