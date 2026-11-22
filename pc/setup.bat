@@ -20,10 +20,11 @@ if errorlevel 1 (
 
 rem --- Virtual environment + packages ---
 if not exist ".venv\Scripts\python.exe" (
-  echo Creating virtual environment...
+  echo [1/4] Creating virtual environment...
   %PY% -m venv .venv || goto :fail
 )
-echo Installing packages (first time takes a few minutes)...
+echo.
+echo [2/4] Installing packages (about 1.5 GB, first time only)...
 ".venv\Scripts\python.exe" -m pip install --upgrade pip -q
 ".venv\Scripts\python.exe" -m pip install -r requirements.txt || goto :fail
 
@@ -39,7 +40,8 @@ if errorlevel 1 (
     set "OLLAMA=%LOCALAPPDATA%\Programs\Ollama\ollama.exe"
   )
 )
-echo Downloading tidy-up model (about 2 GB)...
+echo.
+echo [3/4] Downloading AI tidy-up model (about 2 GB)...
 "%OLLAMA%" pull qwen2.5:3b
 if errorlevel 1 (
   echo.
@@ -50,8 +52,9 @@ if errorlevel 1 (
 )
 
 rem --- Whisper speech model ---
-echo Downloading speech model (about 1.6 GB)...
-".venv\Scripts\python.exe" -c "from faster_whisper.utils import download_model; download_model('large-v3-turbo'); download_model('small.en')" || goto :fail
+echo.
+echo [4/4] Downloading speech model (about 1.6 GB, progress bar below)...
+".venv\Scripts\python.exe" download_models.py large-v3-turbo || goto :fail
 
 echo.
 echo ===== Setup complete =====
