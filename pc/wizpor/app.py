@@ -182,6 +182,13 @@ class App:
 
 
 def main():
+    import os
+
+    # pythonw has no console: give libraries (tqdm etc.) somewhere harmless to write.
+    if sys.stdout is None:
+        sys.stdout = open(os.devnull, "w")
+    if sys.stderr is None:
+        sys.stderr = open(os.devnull, "w")
     d = config_dir()
     logging.basicConfig(
         level=logging.INFO,
