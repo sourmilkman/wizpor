@@ -33,6 +33,14 @@ class HotkeyMachine:
             return Action.STOP
         return Action.NONE  # auto-repeat while held
 
+    def interrupt(self) -> Action:
+        """Another key was pressed. While holding, treat it as a normal shortcut."""
+        if self._state == "hold":
+            self._state = "stopping"
+            self._last_tap_end = None
+            return Action.CANCEL
+        return Action.NONE
+
     def up(self, t: float) -> Action:
         if self._state == "stopping":
             self._state = "idle"
